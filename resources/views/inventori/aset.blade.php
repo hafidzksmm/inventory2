@@ -39,13 +39,23 @@
                 <h6 class="font-weight-semibold text-lg mb-0">📦 Data Aset Jual</h6>
                 <p class="text-sm text-secondary mb-0">Menampilkan semua data aset jual</p>
             </div>
-           <!-- Tombol Tambah Data -->
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="text-white">Aset Jual Workshop</h4>
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addInventarisModal">
-        <i class="bi bi-plus-lg"></i> Tambah Data
-    </button>
-</div>
+        <!-- Tombol Tambah Data & Import Excel rata kanan -->
+          <!-- Tombol Export -->
+  <a href="{{ route('asetjual.export') }}" class="btn btn-primary">
+    Export Excel
+  </a>
+        <div class="d-flex justify-content-end align-items-center mb-3 gap-2">
+            <form action="{{ route('asetjual.import') }}" method="POST" enctype="multipart/form-data" class="mb-0">
+                @csrf
+                <div class="input-group" style="max-width: 400px;">
+                    <input type="file" name="file" class="form-control" accept=".xlsx,.xls" required>
+                    <button type="submit" class="btn btn-success">Import Excel</button>
+                </div>
+            </form>
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addInventarisModal">
+                <i class="bi bi-plus-lg"></i> Tambah Data
+            </button>
+        </div>
 
 <!-- Modal Tambah Data -->
 <div class="modal fade" id="addInventarisModal" tabindex="-1" aria-labelledby="addInventarisModalLabel" aria-hidden="true">
@@ -106,7 +116,7 @@
 
         <div class="card-body px-0 py-0">
             <div class="table-responsive p-3">
-                <table class="table table-hover align-items-center mb-0">
+                <table class="table table-hover align-items-center text-center mb-0">
                     <thead class="bg-gray-100">
                         <tr>
                             <th>No</th>

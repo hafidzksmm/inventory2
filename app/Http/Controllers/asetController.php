@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\asetjual;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\AsetJualImport;
+use App\Exports\AsetJualExport;
 
 class asetController extends Controller
 {
@@ -19,8 +22,8 @@ return view('inventori.aset', compact('asset_jual'));
         $request->validate([
             'nama_barang' => 'required|string|max:255',
             'jenis' => 'required|string|max:100',
-            'ukuran' => 'required|string|max:100',
-            'dimensi' => 'required|string|max:100',
+            'ukuran' => 'string|max:100',
+            'dimensi' => 'string|max:100',
             'qty' => 'required|int|min:1',
             'satuan' => 'required|string|max:255',
             'lokasi' => 'required|string|max:255',
@@ -66,4 +69,19 @@ return view('inventori.aset', compact('asset_jual'));
 
         return redirect()->back()->with('success', 'Data inventaris berhasil dihapus!');
     }
+
+     public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls'
+        ]);
+
+        Excel::import(new AsetJualImport, $request->file('file'));
+
+        return redirect()->back()->with('success', 'Data inventaris berhasil diimport!');
+    }
+    public function export()
+{
+    return Excel::download(new AsetJualExport, 'aset_jual.xlsx');
+}
 }

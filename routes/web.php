@@ -98,15 +98,18 @@ Route::get('/profile', function () {
 })->name('profile');
 
 
-route::get('/inventori-workshop',[inventoriController::class,'ws'])->name('view-ws');
-route::post('/inventori-workshop/add',[inventoriController::class,'store'])->name('ws-store');
-route::put('/inventori-workshop/{id}',[inventoriController::class,'update'])->name('ws.update');
-route::delete('/inventori-workshop/{id}',[inventoriController::class,'destroy'])->name('ws.hapus');
+route::get('inventory-workshop',[inventoriController::class,'ws'])->name('view-ws');
+route::post('inventory-workshop/add',[inventoriController::class,'store'])->name('ws-store');
+route::put('inventory-workshop/{id}',[inventoriController::class,'update'])->name('ws.update');
+route::delete('inventory-workshop/{id}',[inventoriController::class,'destroy'])->name('ws.hapus');
 
 //aset jual
-route::get('/aset-jual',[asetController::class,'aset'])->name('view-aset');
-route::post('/aset-jual/add',[asetController::class,'store'])->name('aset-store');
-route::put('/aset-jual/{id}',[asetController::class,'update'])->name('aset.update');
-route::delete('/aset-jual/{id}',[asetController::class,'destroy'])->name('aset.hapus');
+route::get('/inventory-aset-jual',[asetController::class,'aset'])->name('view-aset');
+route::post('/inventory-aset-jual/add',[asetController::class,'store'])->name('aset-store');
+route::put('/inventory-aset-jual/{id}',[asetController::class,'update'])->name('aset.update');
+route::delete('/inventory-aset-jual/{id}',[asetController::class,'destroy'])->name('aset.hapus');
+Route::post('/inventory-aset-jual/import', [asetController::class, 'import'])->name('asetjual.import');
+Route::get('/inventory-aset-jual/export', [asetController::class, 'export'])->name('asetjual.export');
+
 
 });

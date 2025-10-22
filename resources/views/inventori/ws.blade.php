@@ -106,7 +106,7 @@
 
         <div class="card-body px-0 py-0">
             <div class="table-responsive p-3">
-                <table class="table table-hover align-items-center mb-0">
+                <table class="table table-hover text-center align-items-center mb-0">
                     <thead class="bg-gray-100">
                         <tr>
                             <th>No</th>
@@ -127,7 +127,7 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->nama_barang }}</td>
                                 <td>{{ $item->merk }}</td>
-                                <td>{{ $item->deskripsi }}</td>
+                                <td class="text-wrap text-start">{{ $item->deskripsi }}</td>
                                 <td>{{ $item->dimensi }}</td>
                                 <td>{{ $item->qty }}</td>
                                 <td>{{ $item->satuan }}</td>

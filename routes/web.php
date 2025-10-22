@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\inventoriController;
+use App\Http\Controllers\asetController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -101,5 +102,11 @@ route::get('/inventori-workshop',[inventoriController::class,'ws'])->name('view-
 route::post('/inventori-workshop/add',[inventoriController::class,'store'])->name('ws-store');
 route::put('/inventori-workshop/{id}',[inventoriController::class,'update'])->name('ws.update');
 route::delete('/inventori-workshop/{id}',[inventoriController::class,'destroy'])->name('ws.hapus');
+
+//aset jual
+route::get('/aset-jual',[asetController::class,'aset'])->name('view-aset');
+route::post('/aset-jual/add',[asetController::class,'store'])->name('aset-store');
+route::put('/aset-jual/{id}',[asetController::class,'update'])->name('aset.update');
+route::delete('/aset-jual/{id}',[asetController::class,'destroy'])->name('aset.hapus');
 
 });

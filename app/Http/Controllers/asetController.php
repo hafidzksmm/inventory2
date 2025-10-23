@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\asetjual;
+use App\Models\Asetjual;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Collection;
 use App\Imports\AsetJualImport;
 use App\Exports\AsetJualExport;
+use Maatwebsite\Excel\Excel as ExcelWriter;
 
 class asetController extends Controller
 {
     public function aset()
     {
-       $asset_jual = asetjual::orderBy('created_at', 'desc')->get();
+       $asset_jual = Asetjual::orderBy('created_at', 'desc')->get();
 return view('inventori.aset', compact('asset_jual'));
     }
 
@@ -22,6 +24,8 @@ return view('inventori.aset', compact('asset_jual'));
         $request->validate([
             'nama_barang' => 'required|string|max:255',
             'jenis' => 'required|string|max:100',
+            'merk' => 'required|string',
+            'tipe' => 'required|string',
             'ukuran' => 'string|max:100',
             'dimensi' => 'string|max:100',
             'qty' => 'required|int|min:1',
@@ -31,14 +35,16 @@ return view('inventori.aset', compact('asset_jual'));
 
         asetjual::create($request->all());
 
-        return redirect()->route('view-ws')->with('success', 'Data berhasil ditambahkan.');
+        return redirect()->route('view-aset')->with('success', 'Data berhasil ditambahkan.');
     }
     public function update(Request $request, $id)
     {
         $request->validate([
             'nama_barang' => 'required|string|max:255',
             'jenis' => 'required|string|max:100',
-            'ukuran' => 'required|string|max:100',
+            'merk' => 'required|string',
+            'tipe' => 'required|string',
+            'ukuran' => 'required|string',
             'dimensi' => 'required|string|max:100',
             'qty' => 'required|int|min:1',
             'satuan' => 'required|string|max:255',
@@ -80,8 +86,111 @@ return view('inventori.aset', compact('asset_jual'));
 
         return redirect()->back()->with('success', 'Data inventaris berhasil diimport!');
     }
-    public function export()
-{
-    return Excel::download(new AsetJualExport, 'aset_jual.xlsx');
-}
+
+    public function export(Request $request)
+    {
+        // Ambil parameter filter dari form
+        $nama_barang = $request->input('nama_barang');
+        $jenis = $request->input('jenis');
+        $ukuran = $request->input('ukuran');
+
+        // Query data sesuai filter
+        $query = Asetjual::query();
+
+        if ($nama_barang) $query->where('nama_barang', $nama_barang);
+        if ($jenis) $query->where('jenis', $jenis);
+        if ($ukuran) $query->where('ukuran', $ukuran);
+
+        $data = $query->get([
+            'nama_barang',
+            'jenis',
+            'merk',
+            'tipe',
+            'ukuran',
+            'dimensi',
+            'qty',
+            'satuan',
+            'lokasi',
+            'created_at',
+        ]);
+
+        // Buat header
+        $exportData = new Collection();
+        $exportData->push([
+            'No',
+            'Nama Barang',
+            'Jenis',
+            'Merk',
+            'Tipe',
+            'Ukuran',
+            'Dimensi',
+            'Qty',
+            'Satuan',
+            'Lokasi',
+            'Tanggal Dibuat',
+        ]);
+
+        // Isi data
+        foreach ($data as $index => $item) {
+            $exportData->push([
+                $index + 1,
+                $item->nama_barang,
+                $item->jenis,
+                $item->merk,
+                $item->tipe,
+                $item->ukuran,
+                $item->dimensi,
+                $item->qty,
+                $item->satuan,
+                $item->lokasi,
+                $item->created_at ? $item->created_at->format('d-m-Y') : '',
+            ]);
+        }
+
+        // Export ke Excel tanpa export class
+        return Excel::download(
+            new class($exportData) implements \Maatwebsite\Excel\Concerns\FromCollection {
+                protected $exportData;
+                public function __construct($exportData)
+                {
+                    $this->exportData = $exportData;
+                }
+                public function collection()
+                {
+                    return $this->exportData;
+                }
+            },
+            'Data_Aset_' . now()->format('Ymd_His') . '.xlsx',
+            ExcelWriter::XLSX
+        );
+    }
+
+
+
+ public function filter(Request $request)
+    {
+        $query = Asetjual::query();
+
+        // Filter nama barang (jika diisi)
+        if ($request->filled('nama_barang')) {
+            $query->where('nama_barang', $request->nama_barang);
+        }
+
+        // Filter jenis (jika diisi)
+        if ($request->filled('jenis')) {
+            $query->where('jenis', 'like', '%' . $request->jenis . '%');
+        }
+
+        // Filter deskripsi (jika diisi)
+        if ($request->filled('ukuran')) {
+            $query->where('ukuran', 'like', '%' . $request->deskripsi . '%');
+        }
+
+        // Ambil hasil filter
+        $asset_jual = $query->orderBy('created_at', 'desc')->get();
+
+        // Kirim hasilnya ke view yang sama
+        return view('inventori.aset', compact('asset_jual'));
+    }
+
 }

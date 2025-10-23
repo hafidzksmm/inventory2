@@ -13,6 +13,8 @@ class AsetJualImport implements ToModel, WithHeadingRow
         return new AsetJual([
             'nama_barang' => $row['nama_barang'],
             'jenis'       => $row['jenis'],
+            'merk'       => $row['merk'],
+            'tipe'       => $row['tipe'],
             'ukuran'      => $row['ukuran'],
             'dimensi'     => $row['dimensi'],
             'qty'         => $row['qty'],

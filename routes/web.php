@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\inventoriController;
 use App\Http\Controllers\asetController;
+use App\Http\Controllers\proyekController;
+use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -73,13 +75,11 @@ Route::get('/laravel-examples/users-management', [UserController::class, 'index'
 Route::middleware(['auth'])->group(function () {
 
 
-    Route::get('/', function () {
+Route::get('/', function () {
     return redirect('/dashboard');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/tables', function () {
     return view('tables');
@@ -110,6 +110,16 @@ route::put('/inventory-aset-jual/{id}',[asetController::class,'update'])->name('
 route::delete('/inventory-aset-jual/{id}',[asetController::class,'destroy'])->name('aset.hapus');
 Route::post('/inventory-aset-jual/import', [asetController::class, 'import'])->name('asetjual.import');
 Route::get('/inventory-aset-jual/export', [asetController::class, 'export'])->name('asetjual.export');
+Route::get('/inventory-aset/filter', [AsetController::class, 'filter'])->name('aset.filter');
+Route::get('/inventory-aset/get-detail', [AsetController::class, 'getDetail'])->name('aset.getDetail');
 
+//project
+route::get('/inventory-projek',[proyekController::class,'projek'])->name('view-projek');
+route::post('/inventory-projek/add',[proyekController::class,'store'])->name('projek-store');
+route::put('/inventory-projek/{id}',[proyekController::class,'update'])->name('projek.update');
+route::delete('/inventory-projek/{id}',[proyekController::class,'destroy'])->name('projek.hapus');
+Route::post('/inventory-projekt/import', [proyekController::class, 'import'])->name('projek.import');
+Route::get('/inventory-projek/export', [proyekController::class, 'export'])->name('projek.export');
+route::get('/inventoty-projek/filter', [proyekController::class, 'filter'])->name('projek.filter');
 
 });

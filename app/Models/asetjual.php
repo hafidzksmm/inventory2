@@ -15,6 +15,8 @@ class asetjual extends Model
     protected $fillable = [
         'nama_barang',
         'jenis',
+        'merk',
+        'tipe',
         'ukuran',
         'dimensi',
         'qty',

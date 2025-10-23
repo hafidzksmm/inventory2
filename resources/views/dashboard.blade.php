@@ -28,7 +28,7 @@
                                     <div
                                         class="card card-background shadow-none border-radius-xl card-background-after-none align-items-start mb-0">
                                         <div class="full-background bg-cover"
-                                            style="background-image: url('../assets/img/ikon-2.jpg')"></div>
+                                            style="background-image: url('../assets/img/ikon-{{ $i }}.jpg')"></div>
                                         <div class="card-body text-start px-3 py-0 w-100">
                                             <div class="row mt-12">
                                                 <div class="col-sm-3 mt-auto">

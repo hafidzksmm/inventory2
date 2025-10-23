@@ -9,22 +9,11 @@
                         <div class="full-background"
                             style="background-image: url('../assets/img/header-blue-purple.jpg')"></div>
                         <div class="card-body text-start p-4 w-100">
-                            <h3 class="text-white mb-2">Collect your benefits 🔥</h3>
+                            <h3 class="text-white mb-2">INVENTORY PROJECT </h3>
                             <p class="mb-4 font-weight-semibold">
-                                Check all the advantages and choose the best.
+                                PT. Media Touch Technology
                             </p>
-                            <button type="button"
-                                class="btn btn-outline-white btn-blur btn-icon d-flex align-items-center mb-0">
-                                <span class="btn-inner--icon">
-                                    <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"
-                                        fill="currentColor" class="d-block me-2">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M7 14C10.866 14 14 10.866 14 7C14 3.13401 10.866 0 7 0C3.13401 0 0 3.13401 0 7C0 10.866 3.13401 14 7 14ZM6.61036 4.52196C6.34186 4.34296 5.99664 4.32627 5.71212 4.47854C5.42761 4.63081 5.25 4.92731 5.25 5.25V8.75C5.25 9.0727 5.42761 9.36924 5.71212 9.52149C5.99664 9.67374 6.34186 9.65703 6.61036 9.47809L9.23536 7.72809C9.47879 7.56577 9.625 7.2926 9.625 7C9.625 6.70744 9.47879 6.43424 9.23536 6.27196L6.61036 4.52196Z" />
-                                    </svg>
-                                </span>
-                                <span class="btn-inner--text">Watch more</span>
-                            </button>
-                            <img src="../assets/img/3d-cube.png" alt="3d-cube"
+                            <img src="../assets/img/ikon2.png" alt="3d-cube"
                                 class="position-absolute top-0 end-1 w-25 max-width-200 mt-n6 d-sm-block d-none" />
                         </div>
                     </div>
@@ -35,142 +24,213 @@
                     <div class="card border shadow-xs mb-4">
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
+                                <div class="col-xl-4">
                                 <div>
+                                    <h6 class="font-weight-semibold text-lg mb-0">📦 Data Inventory Project</h6>
+                                    <p class="text-sm text-secondary mb-0">Menampilkan semua data inventory project</p>
                                 </div>
-                                <!-- Tombol Tambah Data -->
-                                <div class="card-header border-bottom pb-0">
-                                    <div class="d-flex flex-wrap align-items-center">
-                                        <h4 class="text-white mb-3 mb-sm-0">Inventory Workshop</h4>
+                                </div>
+                                <!-- Tombol Tambah Data & Import Excel rata kanan -->
+                                 
+                                <!-- Tombol Export -->
+                                 <div class="col-xl-8">
+                                    
+                                    <div class="d-flex justify-content-end align-items-center mb-3 gap-2">
+                                        <!-- Tombol Filter -->
+<!-- Tombol Filter -->
+<button type="button" class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#filterModal">
+    <i class="bi bi-funnel-fill"></i> Filter
+</button>
 
-                                        <div class="d-flex flex-wrap gap-2">
-                                            <!-- Tombol Tambah Data -->
-                                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#addInventarisModal">
-                                                <i class="bi bi-plus-lg"></i> Tambah Data
-                                            </button>
+<!-- Modal Filter -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title" id="filterModalLabel">Filter Data Inventaris</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
 
-                                            <!-- Tombol Filter -->
-                                            <button type="button" class="btn btn-info text-white" data-bs-toggle="modal"
-                                                data-bs-target="#filterModal">
-                                                <i class="bi bi-funnel-fill"></i> Filter
-                                            </button>
+            <form action="{{ route('projek.filter') }}" method="GET" id="filterForm">
+                @csrf
+                <div class="modal-body">
 
-                                            <!-- Modal Filter -->
-                                            <div class="modal fade" id="filterModal" tabindex="-1">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Filter Data Projek</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <input type="text" id="filterInput" class="form-control"
-                                                                placeholder="Ketik kata kunci...">
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" id="applyFilter"
-                                                                class="btn btn-primary">Filter</button>
-                                                            <button type="button" id="resetFilter"
-                                                                class="btn btn-secondary">Reset</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                    <!-- Nama Barang -->
+                    <div class="mb-3">
+                        <label for="nama_barang" class="form-label">Nama Barang</label>
+                        <select id="nama_barang" name="nama_barang" class="form-select bg-dark text-white border-secondary">
+                            <option value="">-- Pilih Nama Barang --</option>
+                            @foreach ($inventaryprojek->unique('nama_barang') as $item)
+                                <option value="{{ $item->nama_barang }}">{{ $item->nama_barang }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
+                    <!-- Jenis -->
+                    <div class="mb-3 d-none" id="jenisGroup">
+                        <label for="jenis" class="form-label">Jenis</label>
+                        <select id="jenis" name="jenis" class="form-select bg-dark text-white border-secondary">
+                            <option value="">-- Pilih Jenis --</option>
+                        </select>
+                    </div>
 
-                                            <!-- Import Excel -->
-                                            <form action="{{ route('projek.import') }}" method="POST"
-                                                enctype="multipart/form-data" class="d-flex align-items-center">
-                                                @csrf
-                                                <input type="file" name="file" class="form-control form-control-sm me-2"
-                                                    style="width:180px" required>
-                                                <button class="btn btn-primary btn-sm">Import</button>
-                                            </form>
+                    <!-- Tipe -->
+                    <div class="mb-3 d-none" id="tipeGroup">
+                        <label for="tipe" class="form-label">Tipe</label>
+                        <select id="tipe" name="tipe" class="form-select bg-dark text-white border-secondary">
+                            <option value="">-- Pilih Tipe --</option>
+                        </select>
+                    </div>
 
-                                            <!-- Export Excel -->
-                                            <a href="{{ route('projek.export') }}" class="btn btn-success btn-sm">
-                                                <i class="bi bi-download"></i> Export
-                                            </a>
-                                        </div>
-                                    </div>
+                    <!-- Merk -->
+                    <div class="mb-3 d-none" id="merkGroup">
+                        <label for="merk" class="form-label">Merk</label>
+                        <select id="merk" name="merk" class="form-select bg-dark text-white border-secondary">
+                            <option value="">-- Pilih Merk --</option>
+                        </select>
+                    </div>
+
+                    <!-- Ukuran -->
+                    <div class="mb-3 d-none" id="ukuranGroup">
+                        <label for="ukuran" class="form-label">Ukuran</label>
+                        <select id="ukuran" name="ukuran" class="form-select bg-dark text-white border-secondary">
+                            <option value="">-- Pilih Ukuran --</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                    <button type="submit" class="btn btn-info text-white">
+                        <i class="bi bi-search"></i> Terapkan Filter
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<a href="{{ route('projeks.export', request()->query()) }}" class="btn btn-success">
+    <i class="bi bi-file-earmark-excel"></i> Export Excel
+</a>
+
+                                
+                                    <!-- Tombol untuk membuka modal -->
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#importModal">
+    <i class="bi bi-file-earmark-arrow-up"></i> Import Excel
+</button>
+
+<!-- Modal Import Excel -->
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Header Modal -->
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="importModalLabel">Import Data dari Excel</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Body Modal -->
+            <div class="modal-body">
+                <form action="{{ route('projeks.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Pilih File Excel</label>
+                        <input type="file" name="file" id="file" class="form-control" accept=".xlsx,.xls" required>
+                        <div class="form-text">Format yang didukung: .xlsx, .xls</div>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                        data-bs-target="#addInventarisModal">
+                                        <i class="bi bi-plus-lg"></i> Tambah Data
+                                    </button>
+                                </div>
                                 </div>
 
-                                <!-- Modal Tambah Data -->
-                                <div class="modal fade" id="addInventarisModal" tabindex="-1"
-                                    aria-labelledby="addInventarisModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content bg-white text-dark">
-                                            <!-- 💡 background putih -->
-                                            <div class="modal-header border-0">
-                                                <h5 class="modal-title fw-bold" id="addInventarisModalLabel">Tambah Data
-                                                    Inventaris</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
+<!-- Modal Tambah Data -->
+<div class="modal fade" id="addInventarisModal" tabindex="-1" aria-labelledby="addInventarisModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content" style="background-color: #1e1e2d; color: #f8f9fa; border-radius: 12px; border: none;">
+            
+            <!-- Header -->
+            <div class="modal-header bg-success" >
+                <h5 class="modal-title fw-bold" id="addInventarisModalLabel">
+                    <i class="bi bi-box-seam me-2 text-info"></i>Tambah Data Inventaris
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
 
-                                            <form action="{{ route('projek-store') }}" method="POST">
-                                                @csrf
-                                                <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
-                                                    <!-- 💡 scroll bar aktif -->
-                                                    <div class="mb-3">
-                                                        <label for="nama_barang" class="form-label">Nama Barang</label>
-                                                        <input type="text" class="form-control" id="nama_barang"
-                                                            name="nama_barang" required>
-                                                    </div>
+<!-- Body -->
+<form action="{{ route('projek-store') }}" method="POST">
+    @csrf
+    <div class="modal-body px-4" style="background-color: #f8f9fb; color: #212529;">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="nama_barang" class="form-label fw-semibold">Nama Barang</label>
+                <input type="text" class="form-control border-secondary" id="nama_barang" name="nama_barang" required>
+            </div>
 
-                                                    <div class="mb-3">
-                                                        <label for="jenis" class="form-label">Jenis</label>
-                                                        <input type="text" class="form-control" id="jenis" name="jenis"
-                                                            required>
-                                                    </div>
+            <div class="col-md-6">
+                <label for="jenis" class="form-label fw-semibold">Jenis</label>
+                <input type="text" class="form-control border-secondary" id="jenis" name="jenis" required>
+            </div>
+            <div class="col-md-6">
+                <label for="tipe" class="form-label fw-semibold">tipe</label>
+                <input type="text" class="form-control border-secondary" id="tipe" name="tipe" required>
+            </div>
+            <div class="col-md-6">
+                <label for="merk" class="form-label fw-semibold">merk</label>
+                <input type="text" class="form-control border-secondary" id="merk" name="merk" required>
+            </div>
+            <div class="col-md-6">
+                <label for="ukuran" class="form-label fw-semibold">Ukuran</label>
+                <input type="text" class="form-control border-secondary" id="ukuran" name="ukuran" required>
+            </div>
+            <div class="col-md-4">
+                <label for="qty" class="form-label fw-semibold">Jumlah </label>
+                <input type="number" class="form-control border-secondary" id="qty" name="qty" min="1" required>
+            </div>
+            <div class="col-md-4">
+                <label for="lokasi" class="form-label fw-semibold">Lokasi</label>
+                <input type="text" class="form-control border-secondary" id="lokasi" name="lokasi" required>
+            </div>
+        </div>
+    </div>
 
-                                                    <div class="mb-3">
-                                                        <label for="tipe" class="form-label">Tipe</label>
-                                                        <input type="text" class="form-control" id="tipe" name="tipe"
-                                                            required>
-                                                    </div>
+    <!-- Footer -->
+    <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-success text-white">
+            <i class="bi bi-save"></i> Simpan
+        </button>
+    </div>
+</form>
 
-                                                    <div class="mb-3">
-                                                        <label for="merk" class="form-label">Merk</label>
-                                                        <input type="text" class="form-control" id="merk" name="merk"
-                                                            required>
-                                                    </div>
+        </div>
+    </div>
+</div>
 
-                                                    <div class="mb-3">
-                                                        <label for="ukuran" class="form-label">Ukuran</label>
-                                                        <input type="text" class="form-control" id="ukuran"
-                                                            name="ukuran" required>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label for="jumlah" class="form-label">Jumlah</label>
-                                                        <input type="number" class="form-control" id="jumlah"
-                                                            name="jumlah" min="1" required>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label for="lokasi" class="form-label">Lokasi</label>
-                                                        <input type="text" class="form-control" id="lokasi"
-                                                            name="lokasi" required>
-                                                    </div>
-                                                </div>
-
-                                                <div class="modal-footer border-0">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-primary">Simpan</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
 
                             <div class="card-body px-0 py-0">
                                 <div class="table-responsive p-3">
-                                    <table class="table table-hover align-items-center mb-0">
+                                    <table class="table table-hover align-items-center text-center mb-0">
                                         <thead class="bg-gray-100">
                                             <tr>
                                                 <th>No</th>
@@ -179,7 +239,7 @@
                                                 <th>Tipe</th>
                                                 <th>Merk</th>
                                                 <th>Ukuran</th>
-                                                <th>jumlah</th>
+                                                <th>Jumlah</th>
                                                 <th>Lokasi</th>
                                                 <th>Dibuat Pada</th>
                                                 <th>Aksi</th>
@@ -221,8 +281,7 @@
                                                         aria-labelledby="editModalLabel{{ $item->id }}"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered">
-                                                            <div class="modal-content"
-                                                                style="max-height: 90vh; overflow-y: auto;">
+                                                            <div class="modal-content">
                                                                 <form action="{{ route('projek.update', $item->id) }}"
                                                                     method="POST">
                                                                     @csrf
@@ -230,17 +289,16 @@
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title"
                                                                             id="editModalLabel{{ $item->id }}">Edit
-                                                                            Inventory Project</h5>
+                                                                            Inventaris</h5>
                                                                         <button type="button" class="btn-close"
                                                                             data-bs-dismiss="modal"
                                                                             aria-label="Close"></button>
                                                                     </div>
 
-                                                                    <div class="modal-body"
-                                                                        style="max-height: 70vh; overflow-y: auto;">
+                                                                    <div class="modal-body">
                                                                         <div class="mb-3">
                                                                             <label for="nama_barang{{ $item->id }}"
-                                                                                class="form-label">Item Barang</label>
+                                                                                class="form-label">Nama Barang</label>
                                                                             <input type="text" name="nama_barang"
                                                                                 class="form-control"
                                                                                 id="nama_barang{{ $item->id }}"
@@ -256,42 +314,43 @@
                                                                                 id="jenis{{ $item->id }}"
                                                                                 value="{{ $item->jenis }}" required>
                                                                         </div>
-
                                                                         <div class="mb-3">
                                                                             <label for="tipe{{ $item->id }}"
-                                                                                class="form-label">Tipe</label>
-                                                                            <textarea name="tipe" class="form-control"
-                                                                                id="tipe{{ $item->id }}" rows="3"
-                                                                                required>{{ $item->tipe }}</textarea>
+                                                                                class="form-label">tipe</label>
+                                                                            <input type="text" name="tipe"
+                                                                                class="form-control"
+                                                                                id="tipe{{ $item->id }}"
+                                                                                value="{{ $item->tipe }}" required>
                                                                         </div>
-
                                                                         <div class="mb-3">
                                                                             <label for="merk{{ $item->id }}"
-                                                                                class="form-label">Merk</label>
+                                                                                class="form-label">merk</label>
                                                                             <input type="text" name="merk"
                                                                                 class="form-control"
                                                                                 id="merk{{ $item->id }}"
-                                                                                value="{{ $item->merk }}">
+                                                                                value="{{ $item->merk }}" required>
                                                                         </div>
-
+                                                                        
                                                                         <div class="mb-3">
                                                                             <label for="ukuran{{ $item->id }}"
-                                                                                class="form-label">Ukuran</label>
+                                                                                class="form-label">ukuran</label>
                                                                             <input type="text" name="ukuran"
                                                                                 class="form-control"
                                                                                 id="ukuran{{ $item->id }}"
                                                                                 value="{{ $item->ukuran }}" required>
                                                                         </div>
 
+                                                                      
+
                                                                         <div class="mb-3">
                                                                             <label for="jumlah{{ $item->id }}"
                                                                                 class="form-label">Jumlah</label>
-                                                                            <input type="number" name="jumlah"
+                                                                            <input type="text" name="jumlah"
                                                                                 class="form-control"
                                                                                 id="jumlah{{ $item->id }}"
-                                                                                value="{{ $item->jumlah }}" required>
+                                                                                value="{{ $item->jumlah }}">
                                                                         </div>
-
+                                                                        
                                                                         <div class="mb-3">
                                                                             <label for="lokasi{{ $item->id }}"
                                                                                 class="form-label">Lokasi</label>
@@ -315,13 +374,11 @@
                                                         </div>
                                                     </div>
                                                 </td>
-
-                                                </td>
                                             </tr>
                                             @empty
                                             <tr>
                                                 <td colspan="10" class="text-center text-muted py-3">
-                                                    Tidak ada data Data.
+                                                    Tidak ada data inventaris.
                                                 </td>
                                             </tr>
                                             @endforelse
@@ -329,59 +386,114 @@
                                     </table>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
+            
+            
             <x-app.footer />
+            
         </div>
     </main>
-    <!-- Script Filter -->
-    <script>
-        $(function () {
-            // Realtime filter saat mengetik
-            $('#filterInput').on('keyup', function () {
-                let keyword = $(this).val();
-                filterData(keyword);
-            });
+    
 
-            // Klik tombol "Filter"
-            $('#applyFilter').on('click', function () {
-                let keyword = $('#filterInput').val();
-                filterData(keyword);
-                $('#filterModal').modal('hide');
-            });
-
-            // Reset filter
-            $('#resetFilter').on('click', function () {
-                $('#filterInput').val('');
-                filterData('');
-            });
-
-            function filterData(keyword) {
-                $.ajax({
-                    url: "{{ route('projek.filter') }}",
-                    type: "GET",
-                    data: {
-                        keyword: keyword
-                    },
-                    success: function (response) {
-                        let rows = '';
-                        $.each(response, function (index, item) {
-                            rows += `
-            <tr>
-              <td>${item.nama_barang}</td>
-              <td>${item.jenis}</td>
-              <td>${item.merk}</td>
-              <td>${item.lokasi}</td>
-            </tr>
-          `;
-                        });
-                        $('#dataTable tbody').html(rows);
-                    }
-                });
-            }
-        });
-
-    </script>
 </x-app-layout>
+@push('scripts')
+<!-- jQuery (pastikan sudah include di layout utama) -->
+<script>
+$(document).ready(function() {
+    let projekData = @json($inventaryprojek);
+
+    // Saat pilih Nama Barang
+    $('#nama_barang').on('change', function() {
+        let selectedBarang = $(this).val();
+        if (selectedBarang) {
+            let filtered = projekData.filter(item => item.nama_barang === selectedBarang);
+
+            // Jenis unik
+            let uniqueJenis = [...new Set(filtered.map(item => item.jenis).filter(Boolean))];
+            $('#jenis').empty().append('<option value="">-- Pilih Jenis --</option>');
+            uniqueJenis.forEach(j => $('#jenis').append(`<option value="${j}">${j}</option>`));
+
+            $('#jenisGroup').removeClass('d-none');
+            $('#tipeGroup, #merkGroup, #ukuranGroup').addClass('d-none');
+        } else {
+            $('#jenisGroup, #tipeGroup, #merkGroup, #ukuranGroup').addClass('d-none');
+        }
+    });
+
+    // Saat pilih Jenis
+    $('#jenis').on('change', function() {
+        let barang = $('#nama_barang').val();
+        let jenis = $(this).val();
+        if (jenis) {
+            let filtered = projekData.filter(item =>
+                item.nama_barang === barang && item.jenis === jenis
+            );
+
+            // Tipe unik
+            let uniqueTipe = [...new Set(filtered.map(item => item.tipe).filter(Boolean))];
+            $('#tipe').empty().append('<option value="">-- Pilih Tipe --</option>');
+            uniqueTipe.forEach(t => $('#tipe').append(`<option value="${t}">${t}</option>`));
+
+            $('#tipeGroup').removeClass('d-none');
+            $('#merkGroup, #ukuranGroup').addClass('d-none');
+        } else {
+            $('#tipeGroup, #merkGroup, #ukuranGroup').addClass('d-none');
+        }
+    });
+
+    // Saat pilih Tipe
+    $('#tipe').on('change', function() {
+        let barang = $('#nama_barang').val();
+        let jenis = $('#jenis').val();
+        let tipe = $(this).val();
+        if (tipe) {
+            let filtered = projekData.filter(item =>
+                item.nama_barang === barang &&
+                item.jenis === jenis &&
+                item.tipe === tipe
+            );
+
+            // Merk unik
+            let uniqueMerk = [...new Set(filtered.map(item => item.merk).filter(Boolean))];
+            $('#merk').empty().append('<option value="">-- Pilih Merk --</option>');
+            uniqueMerk.forEach(m => $('#merk').append(`<option value="${m}">${m}</option>`));
+
+            $('#merkGroup').removeClass('d-none');
+            $('#ukuranGroup').addClass('d-none');
+        } else {
+            $('#merkGroup, #ukuranGroup').addClass('d-none');
+        }
+    });
+
+    // Saat pilih Merk
+    $('#merk').on('change', function() {
+        let barang = $('#nama_barang').val();
+        let jenis = $('#jenis').val();
+        let tipe = $('#tipe').val();
+        let merk = $(this).val();
+        if (merk) {
+            let filtered = projekData.filter(item =>
+                item.nama_barang === barang &&
+                item.jenis === jenis &&
+                item.tipe === tipe &&
+                item.merk === merk
+            );
+
+            // Ukuran unik
+            let uniqueUkuran = [...new Set(filtered.map(item => item.ukuran).filter(Boolean))];
+            $('#ukuran').empty().append('<option value="">-- Pilih Ukuran --</option>');
+            uniqueUkuran.forEach(u => $('#ukuran').append(`<option value="${u}">${u}</option>`));
+
+            $('#ukuranGroup').removeClass('d-none');
+        } else {
+            $('#ukuranGroup').addClass('d-none');
+        }
+    });
+});
+</script>
+
+

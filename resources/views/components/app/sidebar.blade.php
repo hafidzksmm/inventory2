@@ -89,6 +89,13 @@
                     <span>Documentation Project</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-dark fw-semibold" href="{{ route('users-management') }}">
+                    <i class="bi bi-folder2-open me-2 text-primary"></i>
+                    <span>Document Project</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

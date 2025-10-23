@@ -98,10 +98,14 @@ Route::get('/profile', function () {
 })->name('profile');
 
 
-route::get('inventory-workshop',[inventoriController::class,'ws'])->name('view-ws');
-route::post('inventory-workshop/add',[inventoriController::class,'store'])->name('ws-store');
-route::put('inventory-workshop/{id}',[inventoriController::class,'update'])->name('ws.update');
-route::delete('inventory-workshop/{id}',[inventoriController::class,'destroy'])->name('ws.hapus');
+route::get('/inventori',[inventoriController::class,'ws'])->name('view-ws');
+route::post('/inventori/add',[inventoriController::class,'store'])->name('ws-store');
+route::put('/inventori/{id}',[inventoriController::class,'update'])->name('ws.update');
+route::delete('/inventori/{id}',[inventoriController::class,'destroy'])->name('ws.hapus');
+Route::post('/inventori/import', [inventoriController::class, 'import'])->name('inventori.import');
+Route::get('/inventori/export', [inventoriController::class, 'export'])->name('inventori.export');
+Route::get('/inventori/filter', [inventoriController::class, 'filter'])->name('ws.filter');
+Route::get('/inventori/get-detail', [inventoriController::class, 'getDetail'])->name('ws.getDetail');
 
 //aset jual
 route::get('/inventory-aset-jual',[asetController::class,'aset'])->name('view-aset');
@@ -118,8 +122,8 @@ route::get('/inventory-projek',[proyekController::class,'projek'])->name('view-p
 route::post('/inventory-projek/add',[proyekController::class,'store'])->name('projek-store');
 route::put('/inventory-projek/{id}',[proyekController::class,'update'])->name('projek.update');
 route::delete('/inventory-projek/{id}',[proyekController::class,'destroy'])->name('projek.hapus');
-Route::post('/inventory-projekt/import', [proyekController::class, 'import'])->name('projek.import');
-Route::get('/inventory-projek/export', [proyekController::class, 'export'])->name('projek.export');
+Route::post('/inventory-projekt/import', [proyekController::class, 'import'])->name('projeks.import');
+Route::get('/inventory-projek/export', [proyekController::class, 'export'])->name('projeks.export');
 route::get('/inventoty-projek/filter', [proyekController::class, 'filter'])->name('projek.filter');
-
+Route::get('/inventory-projek/get-detail', [proyekController::class, 'getDetail'])->name('projek.getDetail');
 });

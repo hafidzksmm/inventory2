@@ -25,10 +25,13 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div class="col-xl-4">
-                                <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0">📦 Data Aset Jual</h6>
-                                    <p class="text-sm text-secondary mb-0">Menampilkan semua data aset jual</p>
-                                </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <input type="text" 
+                                            id="searchInput" 
+                                            class="form-control bg-white text-black border-secondary" 
+                                            placeholder="Cari data Inventory Asset Jual..." 
+                                            style="max-width: 300px;">
+                                    </div>
                                 </div>
                                 <!-- Tombol Tambah Data & Import Excel rata kanan -->
                                  
@@ -38,7 +41,7 @@
                                     <div class="d-flex justify-content-end align-items-center mb-3 gap-2">
                                         <!-- Tombol Filter -->
 <!-- Tombol Filter -->
-<button type="button" class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#filterModal">
+<button type="button" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#filterModal">
     <i class="bi bi-funnel-fill"></i> Filter
 </button>
 
@@ -153,7 +156,7 @@
     </div>
 </div>
 
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
                                         data-bs-target="#addInventarisModal">
                                         <i class="bi bi-plus-lg"></i> Tambah Data
                                     </button>
@@ -243,7 +246,7 @@
 
                             <div class="card-body px-0 py-0">
                                 <div class="table-responsive p-3">
-                                    <table class="table table-hover align-items-center text-center mb-0">
+                                    <table id="dataTable" class="table table-hover align-items-center text-center mb-0">
                                         <thead class="bg-gray-100">
                                             <tr>
                                                 <th>No</th>
@@ -440,91 +443,52 @@
 $(document).ready(function() {
     let asetData = @json($asset_jual);
 
-    // Saat pilih Nama Barang
-    $('#nama_barang').on('change', function() {
-        let selectedBarang = $(this).val();
-        if (selectedBarang) {
-            let filtered = asetData.filter(item => item.nama_barang === selectedBarang);
+    // Fungsi bantu ambil nilai unik dari kolom tertentu dengan filter aktif
+    function getUniqueValues(field, filters = {}) {
+        let filtered = asetData.filter(item => {
+            return (!filters.nama_barang || item.nama_barang === filters.nama_barang) &&
+                   (!filters.jenis || item.jenis === filters.jenis) &&
+                   (!filters.merk || item.merk === filters.merk) &&
+                   (!filters.tipe || item.tipe === filters.tipe) &&
+                   (!filters.ukuran || item.ukuran === filters.ukuran);
+        });
+        return [...new Set(filtered.map(item => item[field]).filter(Boolean))];
+    }
 
-            // Jenis unik
-            let uniqueJenis = [...new Set(filtered.map(item => item.jenis).filter(Boolean))];
-            $('#jenis').empty().append('<option value="">-- Pilih Jenis --</option>');
-            uniqueJenis.forEach(j => $('#jenis').append(`<option value="${j}">${j}</option>`));
+    // Fungsi isi dropdown
+    function populateDropdown(selector, data, label, selectedVal = '') {
+        $(selector).empty().append(`<option value="">-- Pilih ${label} --</option>`);
+        data.forEach(value => {
+            let selected = value === selectedVal ? 'selected' : '';
+            $(selector).append(`<option value="${value}" ${selected}>${value}</option>`);
+        });
+    }
 
-            $('#jenisGroup').removeClass('d-none');
-            $('#merkGroup, #tipeGroup, #ukuranGroup').addClass('d-none');
-        } else {
-            $('#jenisGroup, #merkGroup, #tipeGroup, #ukuranGroup').addClass('d-none');
-        }
-    });
+    // Inisialisasi semua dropdown di awal (tampilkan semua data unik)
+    populateDropdown('#nama_barang', getUniqueValues('nama_barang'), 'Nama Barang');
+    populateDropdown('#jenis', getUniqueValues('jenis'), 'Jenis');
+    populateDropdown('#merk', getUniqueValues('merk'), 'Merk');
+    populateDropdown('#tipe', getUniqueValues('tipe'), 'Tipe');
+    populateDropdown('#ukuran', getUniqueValues('ukuran'), 'Ukuran');
 
-    // Saat pilih Jenis
-    $('#jenis').on('change', function() {
-        let barang = $('#nama_barang').val();
-        let jenis = $(this).val();
-        if (jenis) {
-            let filtered = asetData.filter(item => item.nama_barang === barang && item.jenis === jenis);
+    // Pastikan semua dropdown tampil
+    $('#jenisGroup, #merkGroup, #tipeGroup, #ukuranGroup').removeClass('d-none');
 
-            // Merk unik
-            let uniqueMerk = [...new Set(filtered.map(item => item.merk).filter(Boolean))];
-            $('#merk').empty().append('<option value="">-- Pilih Merk --</option>');
-            uniqueMerk.forEach(m => $('#merk').append(`<option value="${m}">${m}</option>`));
+    // Saat ada perubahan di salah satu dropdown, update dropdown lainnya agar saling sinkron
+    $('#nama_barang, #jenis, #merk, #tipe, #ukuran').on('change', function() {
+        let filters = {
+            nama_barang: $('#nama_barang').val(),
+            jenis: $('#jenis').val(),
+            merk: $('#merk').val(),
+            tipe: $('#tipe').val(),
+            ukuran: $('#ukuran').val()
+        };
 
-            $('#merkGroup').removeClass('d-none');
-            $('#tipeGroup, #ukuranGroup').addClass('d-none');
-        } else {
-            $('#merkGroup, #tipeGroup, #ukuranGroup').addClass('d-none');
-        }
-    });
-
-    // Saat pilih Merk
-    $('#merk').on('change', function() {
-        let barang = $('#nama_barang').val();
-        let jenis = $('#jenis').val();
-        let merk = $(this).val();
-        if (merk) {
-            let filtered = asetData.filter(item =>
-                item.nama_barang === barang &&
-                item.jenis === jenis &&
-                item.merk === merk
-            );
-
-            // Tipe unik
-            let uniqueTipe = [...new Set(filtered.map(item => item.tipe).filter(Boolean))];
-            $('#tipe').empty().append('<option value="">-- Pilih Tipe --</option>');
-            uniqueTipe.forEach(t => $('#tipe').append(`<option value="${t}">${t}</option>`));
-
-            $('#tipeGroup').removeClass('d-none');
-            $('#ukuranGroup').addClass('d-none');
-        } else {
-            $('#tipeGroup, #ukuranGroup').addClass('d-none');
-        }
-    });
-
-    // Saat pilih Tipe
-    $('#tipe').on('change', function() {
-        let barang = $('#nama_barang').val();
-        let jenis = $('#jenis').val();
-        let merk = $('#merk').val();
-        let tipe = $(this).val();
-
-        if (tipe) {
-            let filtered = asetData.filter(item =>
-                item.nama_barang === barang &&
-                item.jenis === jenis &&
-                item.merk === merk &&
-                item.tipe === tipe
-            );
-
-            // Ukuran unik
-            let uniqueUkuran = [...new Set(filtered.map(item => item.ukuran).filter(Boolean))];
-            $('#ukuran').empty().append('<option value="">-- Pilih Ukuran --</option>');
-            uniqueUkuran.forEach(u => $('#ukuran').append(`<option value="${u}">${u}</option>`));
-
-            $('#ukuranGroup').removeClass('d-none');
-        } else {
-            $('#ukuranGroup').addClass('d-none');
-        }
+        populateDropdown('#nama_barang', getUniqueValues('nama_barang', filters), 'Nama Barang', filters.nama_barang);
+        populateDropdown('#jenis', getUniqueValues('jenis', filters), 'Jenis', filters.jenis);
+        populateDropdown('#merk', getUniqueValues('merk', filters), 'Merk', filters.merk);
+        populateDropdown('#tipe', getUniqueValues('tipe', filters), 'Tipe', filters.tipe);
+        populateDropdown('#ukuran', getUniqueValues('ukuran', filters), 'Ukuran', filters.ukuran);
     });
 });
 </script>

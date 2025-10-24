@@ -12,13 +12,13 @@ class InventoriImport implements ToModel, WithHeadingRow
     {
         // Pastikan header di file Excel sesuai kolom di database
         return new ws([
-            'nama_barang' => $row['nama_barang'] ?? null,
-            'merk'        => $row['merk'] ?? null,
-            'deskripsi'   => $row['deskripsi'] ?? null,
-            'dimensi'     => $row['dimensi'] ?? null,
-            'qty'         => $row['qty'] ?? 0,
-            'satuan'      => $row['satuan'] ?? null,
-            'lokasi'      => $row['lokasi'] ?? null,
+            'nama_barang' => $row['nama_barang'] ,
+            'merk'        => $row['merk'],
+            'deskripsi'   => $row['deskripsi'], 
+            'dimensi'     => $row['dimensi'] ,
+            'qty'         => $row['qty'] ,
+            'satuan'      => $row['satuan'],
+            'lokasi'      => $row['lokasi'] ,
         ]);
     }
 }

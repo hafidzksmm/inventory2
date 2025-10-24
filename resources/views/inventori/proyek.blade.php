@@ -25,10 +25,13 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div class="col-xl-4">
-                                <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0">📦 Data Inventory Project</h6>
-                                    <p class="text-sm text-secondary mb-0">Menampilkan semua data inventory project</p>
-                                </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <input type="text" 
+                                            id="searchInput" 
+                                            class="form-control bg-white text-black border-secondary" 
+                                            placeholder="Cari data Inventory Inventory Project..." 
+                                            style="max-width: 300px;">
+                                    </div>
                                 </div>
                                 <!-- Tombol Tambah Data & Import Excel rata kanan -->
                                  
@@ -38,7 +41,7 @@
                                     <div class="d-flex justify-content-end align-items-center mb-3 gap-2">
                                         <!-- Tombol Filter -->
 <!-- Tombol Filter -->
-<button type="button" class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#filterModal">
+<button type="button" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#filterModal">
     <i class="bi bi-funnel-fill"></i> Filter
 </button>
 
@@ -153,7 +156,7 @@
     </div>
 </div>
 
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
                                         data-bs-target="#addInventarisModal">
                                         <i class="bi bi-plus-lg"></i> Tambah Data
                                     </button>
@@ -230,7 +233,7 @@
 
                             <div class="card-body px-0 py-0">
                                 <div class="table-responsive p-3">
-                                    <table class="table table-hover align-items-center text-center mb-0">
+                                    <table id="dataTable" class="table table-hover align-items-center text-center mb-0">
                                         <thead class="bg-gray-100">
                                             <tr>
                                                 <th>No</th>
@@ -418,9 +421,9 @@ $(document).ready(function() {
             uniqueJenis.forEach(j => $('#jenis').append(`<option value="${j}">${j}</option>`));
 
             $('#jenisGroup').removeClass('d-none');
-            $('#tipeGroup, #merkGroup, #ukuranGroup').addClass('d-none');
+            $('#tipeGroup, #merkGroup, #ukuranGroup').removeClass('d-none');
         } else {
-            $('#jenisGroup, #tipeGroup, #merkGroup, #ukuranGroup').addClass('d-none');
+            $('#jenisGroup, #tipeGroup, #merkGroup, #ukuranGroup').removeClass('d-none');
         }
     });
 
@@ -439,9 +442,9 @@ $(document).ready(function() {
             uniqueTipe.forEach(t => $('#tipe').append(`<option value="${t}">${t}</option>`));
 
             $('#tipeGroup').removeClass('d-none');
-            $('#merkGroup, #ukuranGroup').addClass('d-none');
+            $('#merkGroup, #ukuranGroup').removeClass('d-none');
         } else {
-            $('#tipeGroup, #merkGroup, #ukuranGroup').addClass('d-none');
+            $('#tipeGroup, #merkGroup, #ukuranGroup').removeClass('d-none');
         }
     });
 
@@ -463,9 +466,9 @@ $(document).ready(function() {
             uniqueMerk.forEach(m => $('#merk').append(`<option value="${m}">${m}</option>`));
 
             $('#merkGroup').removeClass('d-none');
-            $('#ukuranGroup').addClass('d-none');
+            $('#ukuranGroup').removeClass('d-none');
         } else {
-            $('#merkGroup, #ukuranGroup').addClass('d-none');
+            $('#merkGroup, #ukuranGroup').removeClass('d-none');
         }
     });
 
@@ -490,7 +493,29 @@ $(document).ready(function() {
 
             $('#ukuranGroup').removeClass('d-none');
         } else {
-            $('#ukuranGroup').addClass('d-none');
+            $('#ukuranGroup').removeClass('d-none');
+        }
+    });
+    // Fitur Search
+    function searchTable() {
+        let value = $('#searchInput').val().toLowerCase();
+        $('#dataTable tbody tr').filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    }
+
+    // Jalankan pencarian saat mengetik
+    $('#searchInput').on('keyup', function(e) {
+        if (e.key !== 'Enter') {
+            searchTable();
+        }
+    });
+
+    // Jalankan pencarian saat tekan Enter
+    $('#searchInput').on('keypress', function(e) {
+        if (e.which === 13) {
+            e.preventDefault();
+            searchTable();
         }
     });
 });

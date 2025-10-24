@@ -25,10 +25,13 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div class="col-xl-4">
-                                <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0">📦 Data Inventory Workshop</h6>
-                                    <p class="text-sm text-secondary mb-0">Menampilkan semua data Inventory Workshop</p>
-                                </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <input type="text" 
+                                            id="searchInput" 
+                                            class="form-control bg-white text-black border-secondary" 
+                                            placeholder="Cari data Inventory Workshop..." 
+                                            style="max-width: 300px;">
+                                    </div>
                                 </div>
                                 <!-- Tombol Tambah Data & Import Excel rata kanan -->
                                  
@@ -38,7 +41,7 @@
                                     <div class="d-flex justify-content-end align-items-center mb-3 gap-2">
                                         <!-- Tombol Filter -->
 <!-- Tombol Filter -->
-<button type="button" class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#filterModal">
+<button type="button" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#filterModal">
     <i class="bi bi-funnel-fill"></i> Filter
 </button>
 
@@ -137,7 +140,7 @@
     </div>
 </div>
 
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
                                         data-bs-target="#addInventarisModal">
                                         <i class="bi bi-plus-lg"></i> Tambah Data
                                     </button>
@@ -218,7 +221,7 @@
 
                             <div class="card-body px-0 py-0">
                                 <div class="table-responsive p-3">
-                                    <table class="table table-hover align-items-center text-center mb-0">
+                                    <table id="dataTable" class="table table-hover align-items-center text-center mb-0">
                                         <thead class="bg-gray-100">
                                             <tr>
                                                 <th>No</th>
@@ -393,44 +396,61 @@
 $(document).ready(function() {
     let wsData = @json($inventaris);
 
-    // Saat pilih Nama Barang
+    // Filter dinamis untuk Nama Barang → Merk → Deskripsi
     $('#nama_barang').on('change', function() {
         let selectedBarang = $(this).val();
         if (selectedBarang) {
             let filtered = wsData.filter(item => item.nama_barang === selectedBarang);
-
-            // Merk unik
             let uniqueMerk = [...new Set(filtered.map(item => item.merk).filter(Boolean))];
+
             $('#merk').empty().append('<option value="">-- Pilih Merk --</option>');
             uniqueMerk.forEach(m => $('#merk').append(`<option value="${m}">${m}</option>`));
 
             $('#merkGroup').removeClass('d-none');
-            $('#deskripsiGroup').addClass('d-none');
+            $('#deskripsiGroup').removeClass('d-none');
         } else {
-            $('#merkGroup, #deskripsiGroup').addClass('d-none');
+            $('#merkGroup, #deskripsiGroup').removeClass('d-none');
         }
     });
 
-    // Saat pilih Merk
     $('#merk').on('change', function() {
         let barang = $('#nama_barang').val();
         let merk = $(this).val();
         if (merk) {
-            let filtered = wsData.filter(item => 
-                item.nama_barang === barang && item.merk === merk
-            );
-
-            // Deskripsi unik
+            let filtered = wsData.filter(item => item.nama_barang === barang && item.merk === merk);
             let uniqueDeskripsi = [...new Set(filtered.map(item => item.deskripsi).filter(Boolean))];
+
             $('#deskripsi').empty().append('<option value="">-- Pilih Deskripsi --</option>');
             uniqueDeskripsi.forEach(d => $('#deskripsi').append(`<option value="${d}">${d}</option>`));
 
             $('#deskripsiGroup').removeClass('d-none');
         } else {
-            $('#deskripsiGroup').addClass('d-none');
+            $('#deskripsiGroup').removeClass('d-none');
+        }
+    });
+
+    // Fitur Search
+    function searchTable() {
+        let value = $('#searchInput').val().toLowerCase();
+        $('#dataTable tbody tr').filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    }
+
+    // Jalankan pencarian saat mengetik
+    $('#searchInput').on('keyup', function(e) {
+        if (e.key !== 'Enter') {
+            searchTable();
+        }
+    });
+
+    // Jalankan pencarian saat tekan Enter
+    $('#searchInput').on('keypress', function(e) {
+        if (e.which === 13) {
+            e.preventDefault();
+            searchTable();
         }
     });
 });
 </script>
-
 

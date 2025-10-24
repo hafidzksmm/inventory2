@@ -79,7 +79,7 @@ Route::get('/', function () {
     return redirect('/dashboard');
 });
 
-Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [App\Http\Controllers\dashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/tables', function () {
     return view('tables');

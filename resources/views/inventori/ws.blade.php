@@ -227,7 +227,7 @@
                                                 <th>No</th>
                                                 <th>Nama Barang</th>
                                                 <th>Merk</th>
-                                                <th>Deskripsi</th>
+                                                <th >Deskripsi</th>
                                                 <th>Dimensi</th>
                                                 <th>Qty</th>
                                                 <th>Satuan</th>
@@ -240,13 +240,13 @@
                                             @forelse ($inventaris as $index => $item)
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
-                                                <td>{{ $item->nama_barang }}</td>
-                                                <td>{{ $item->merk }}</td>
-                                                <td>{{ $item->deskripsi }}</td>
-                                                <td>{{ $item->dimensi }}</td>
+                                                <td class="text-wrap">{{ $item->nama_barang }}</td>
+                                                <td class="text-wrap">{{ $item->merk }}</td>
+                                                <td class="text-wrap" >{{ $item->deskripsi }}</td>
+                                                <td class="text-wrap">{{ $item->dimensi }}</td>
                                                 <td>{{ $item->qty }}</td>
                                                 <td>{{ $item->satuan }}</td>
-                                                <td>{{ $item->lokasi }}</td>
+                                                <td class="text-wrap">{{ $item->lokasi }}</td>
                                                 <td>{{ $item->created_at->format('d/m/Y') }}</td>
                                                 <td>
                                                     <!-- Tombol Edit (buka modal) -->

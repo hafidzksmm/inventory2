@@ -267,15 +267,15 @@
                                             @forelse ($asset_jual as $index => $item)
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
-                                                <td>{{ $item->nama_barang }}</td>
-                                                <td>{{ $item->jenis }}</td>
-                                                <td>{{ $item->merk }}</td>
-                                                <td>{{ $item->tipe }}</td>
-                                                <td>{{ $item->ukuran }}</td>
-                                                <td>{{ $item->dimensi }}</td>
+                                                <td class="text-wrap">{{ $item->nama_barang }}</td>
+                                                <td class="text-wrap">{{ $item->jenis }}</td>
+                                                <td class="text-wrap">{{ $item->merk }}</td>
+                                                <td class="text-wrap">{{ $item->tipe }}</td>
+                                                <td class="text-wrap">{{ $item->ukuran }}</td>
+                                                <td class="text-wrap">{{ $item->dimensi }}</td>
                                                 <td>{{ $item->qty }}</td>
                                                 <td>{{ $item->satuan }}</td>
-                                                <td>{{ $item->lokasi }}</td>
+                                                <td class="text-wrap">{{ $item->lokasi }}</td>
                                                 <td>{{ $item->created_at->format('d/m/Y') }}</td>
                                                 <td>
                                                     <!-- Tombol Edit (buka modal) -->

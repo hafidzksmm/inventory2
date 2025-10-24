@@ -254,7 +254,7 @@
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $item->nama_barang }}</td>
                                                 <td>{{ $item->jenis }}</td>
-                                                <td>{{ $item->tipe }}</td>
+                                                <td class="text-wrap">{{ $item->tipe }}</td>
                                                 <td>{{ $item->merk }}</td>
                                                 <td>{{ $item->ukuran }}</td>
                                                 <td>{{ $item->jumlah }}</td>

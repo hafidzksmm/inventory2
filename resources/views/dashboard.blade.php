@@ -90,54 +90,93 @@
     </main>
 
     <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const ctx = document.getElementById('inventoryChart').getContext('2d');
-            const dataValues = [{{ $countProjek }}, {{ $countInventaris }}, {{ $countAssetjual }}];
-            const colors = ['#0000FF', '#800000', '#800080'];
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('inventoryChart').getContext('2d');
 
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: dataValues,
-                        backgroundColor: colors,
-                        borderWidth: 2,
-                        hoverOffset: 10
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '60%',
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { enabled: false }
-                    }
-                },
-                plugins: [{
-                    // 🔹 Custom plugin untuk tampilkan angka di dalam slice
-                    id: 'valueLabels',
-                    afterDraw(chart) {
-                        const {ctx, data} = chart;
-                        const meta = chart.getDatasetMeta(0);
-                        ctx.save();
-                        ctx.font = 'bold 40px Poppins';
-                        ctx.fillStyle = '#fff';
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'middle';
-                        meta.data.forEach((element, index) => {
-                            const pos = element.tooltipPosition();
-                            const value = data.datasets[0].data[index];
-                            ctx.fillText(value, pos.x, pos.y);
-                        });
-                        ctx.restore();
-                    }
+        const labels = ['Inventory Project', 'Inventory Workshop', 'Asset Jual'];
+        const dataValues = [{{ $countProjek }}, {{ $countInventaris }}, {{ $countAssetjual }}];
+        const colors = ['#0000FF', '#800000', '#800080'];
+
+        const chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: dataValues,
+                    backgroundColor: colors,
+                    borderWidth: 2,
+                    hoverOffset: 10
                 }]
-            });
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        enabled: true,
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.chart.data.labels[context.dataIndex];
+                                const value = context.formattedValue;
+                                return `${label}`;
+                            }
+                        },
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        titleFont: { size: 16, weight: 'bold' },
+                        bodyFont: { size: 14 }
+                    }
+                },
+                onHover: (event, elements) => {
+                    const canvas = event.native ? event.native.target : event.target;
+                    canvas.style.cursor = elements.length ? 'pointer' : 'default';
+                }
+            },
+            plugins: [{
+                // 🔹 Plugin custom untuk angka di tengah setiap slice
+                id: 'valueLabels',
+                afterDraw(chart) {
+                    const {ctx, data} = chart;
+                    const meta = chart.getDatasetMeta(0);
+                    ctx.save();
+                    ctx.font = 'bold 30px Poppins';
+                    ctx.fillStyle = '#fff';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    meta.data.forEach((element, index) => {
+                        const pos = element.tooltipPosition();
+                        const value = data.datasets[0].data[index];
+                        ctx.fillText(value, pos.x, pos.y);
+                    });
+                    ctx.restore();
+                }
+            }]
         });
-    </script>
+
+        // 🔹 Tambahkan logo di tengah tengah donat
+        const image = new Image();
+        image.src = '/images/logo.png'; // ganti dengan path logo kamu
+        image.onload = function() {
+            const plugin = {
+                id: 'centerImage',
+                beforeDraw(chart) {
+                    const {ctx, chartArea: {width, height}} = chart;
+                    const x = chart.chartArea.left + width / 2;
+                    const y = chart.chartArea.top + height / 2;
+                    const imgSize = 70; // ukuran logo, bisa kamu kecilkan lagi
+                    ctx.drawImage(image, x - imgSize / 2, y - imgSize / 2, imgSize, imgSize);
+                }
+            };
+            chart.config.plugins.push(plugin);
+            chart.update();
+        };
+    });
+</script>
 
     <style>
     .chart-container { position: relative; }

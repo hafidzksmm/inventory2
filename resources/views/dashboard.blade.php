@@ -1,185 +1,208 @@
 <x-app-layout>
 
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <x-app.navbar />
 
         <div class="container-fluid py-4 px-5">
+            <div class="position-relative overflow-hidden" style="height: 100vh;">
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="d-md-flex align-items-center mb-3 mx-2">
-                        <div class="mb-md-0 mb-3">
-                            <h3 class="font-weight-bold mb-0">Halo, Tim MTT</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <hr class="my-0">
-
-            <!-- 🎬 Header Video Section -->
-            <div class="position-relative overflow-hidden" style="height: 80vh;">
-
-                <!-- 🔹 Background Video -->
+                <!-- 🔹 VIDEO BACKGROUND -->
                 <video autoplay muted loop playsinline class="w-100 h-100 object-cover position-absolute top-0 start-0"
                     style="object-fit: cover; z-index: 1;">
-                    <source src="{{ asset('assets/img/vidio.mp4') }}" type="video/mp4">
+                    <source src="{{ asset('assets/img/vidioo.mp4') }}" type="video/mp4">
                     Browser kamu tidak mendukung video.
                 </video>
 
-                <!-- 🔹 Logo di tengah -->
-                <div class="position-absolute top-50 start-50 translate-middle d-flex justify-content-center align-items-center"
-                    style="z-index: 3;">
-                    <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" class="floating-logo"
-                        style="margin-top:50px; width: 230px; filter: drop-shadow(0 0 25px rgba(255,255,255,0.8));">
-                </div>
+                <!-- 🔹 TITLE -->
+                <h2 class="animated-title fw-bold text-white position-absolute top-0 start-0 ms-4 mt-3"
+                    style="z-index: 3; padding-left:30px;">
+                    Dashboard
+                </h2>
 
-            <!-- 🔹 Ikon di kiri bawah sejajar horizontal -->
-            <div class="position-absolute bottom-0 start-0 mb-4 ms-4 d-flex flex-row gap-3" style="z-index: 3;">
-                @php
-                    $icons = [
-                        ['src' => 'assets/img/ikon-1.jpg', 'label' => 'Inventory Workshop', 'route' => 'view-ws'],
-                        ['src' => 'assets/img/ikon-2.jpg', 'label' => 'Inventory Project', 'route' => 'view-projek'],
-                        ['src' => 'assets/img/ikon-3.jpg', 'label' => 'Asset Jual', 'route' => 'view-aset'],
-                    ];
-                @endphp
+                <!-- 🔹 CHART -->
+                <div class="position-absolute top-50 start-50 translate-middle text-center" style="z-index: 3;">
+                    <div class="chart-container mx-auto position-relative" style="width: 600px; height: 600px;">
+                        <canvas id="inventoryChart"></canvas>
 
-                @foreach ($icons as $index => $icon)
-                    <div class="icon-item d-flex flex-column align-items-center text-white"
-                        style="cursor: pointer;"
-                        onclick="window.location.href='{{ route($icon['route']) }}'">
-                        <img src="{{ asset($icon['src']) }}" alt="ikon{{ $index + 1 }}"
-                            class="rounded-circle shadow icon-img"
-                            style="width: 90px; height: 90px; object-fit: cover;">
-                        <span class="mt-1 fw-bold text-center" style="font-size: 0.8rem;">
-                            {{ $icon['label'] }}
-                        </span>
-                    </div>
-                @endforeach
-            </div>
-
-            </div>
-
-            <!-- ================= PIE CHART SECTION ================= -->
-            <div class="row mt-5">
-                <div class="col-md-6 mx-auto text-center">
-                    <h4 class="mb-4">Statistik Data Inventori</h4>
-                    <canvas id="inventoryChart" width="400" height="400" style="cursor: pointer;"></canvas>
-                </div>
-            </div>
-
-            <!-- ================= MODAL DETAIL ================= -->
-            <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="detailModalLabel">Detail Jumlah Data</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body text-start">
-                            <ul class="list-group">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Inventory Project
-                                    <span class="badge bg-primary rounded-pill">{{ $countProjek }}</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Inventaris
-                                    <span class="badge bg-success rounded-pill">{{ $countInventaris }}</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                     Asset Jual
-                                    <span class="badge bg-success rounded-pill">{{ $countAssetjual }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <div class="logo-center-wrapper position-absolute top-50 start-50 translate-middle">
+                            <img src="{{ asset('assets/img/logo.png') }}" alt="Logo"
+                                 class="floating-logo" style="width:250px; height:auto; z-index:5;">
                         </div>
                     </div>
                 </div>
+
+                <!-- 🔹 IKON KIRI BAWAH -->
+                <div class="position-absolute bottom-0 start-0 mb-4 ms-4 d-flex flex-row gap-3" style="z-index: 3;">
+                    @php
+                        $icons = [
+                            ['src' => 'assets/img/ikon-1.jpg', 'label' => 'Inventory Workshop', 'route' => 'view-ws'],
+                            ['src' => 'assets/img/ikon-2.jpg', 'label' => 'Inventory Project', 'route' => 'view-projek'],
+                            ['src' => 'assets/img/ikon-3.jpg', 'label' => 'Asset Jual', 'route' => 'view-aset'],
+                        ];
+                    @endphp
+
+                    @foreach ($icons as $index => $icon)
+                        <div class="icon-item d-flex flex-column align-items-center text-white"
+                            style="cursor: pointer;"
+                            onclick="window.location.href='{{ route($icon['route']) }}'">
+                            <img src="{{ asset($icon['src']) }}" alt="ikon{{ $index + 1 }}"
+                                class="rounded-circle shadow icon-img"
+                                style="width: 90px; height: 90px; object-fit: cover;">
+                            <span class="mt-1 fw-bold text-center" style="font-size: 0.8rem;">
+                                {{ $icon['label'] }}
+                            </span>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- 🔹 KANAN ATAS -->
+                <div class="position-absolute top-0 end-0 mt-4 me-4 d-flex flex-column align-items-end gap-3" style="z-index: 3;">
+                    <div class="icon-item text-end text-white" onclick="window.open('https://mttech.co.id', '_blank')" style="cursor: pointer;">
+                        <img src="{{ asset('assets/img/ikonn1.jpg') }}" class="rounded-circle shadow icon-img"
+                            style="width: 70px; height: 70px; object-fit: cover;">
+                        <div class="fw-bold small">Company Profile</div>
+                    </div>
+                    <div class="icon-item text-end text-white" onclick="alert('Documentation Project');" style="cursor: pointer;">
+                        <img src="{{ asset('assets/img/ikonn2.jpg') }}" class="rounded-circle shadow icon-img"
+                            style="width: 70px; height: 70px; object-fit: cover;">
+                        <div class="fw-bold small">Doc Giat</div>
+                    </div>
+                </div>
+
+                <!-- 🔹 KANAN BAWAH -->
+                <div class="position-absolute bottom-0 end-0 mb-4 me-4 d-flex flex-column align-items-end gap-3" style="z-index: 3;">
+                    <div class="icon-item text-end text-white" onclick="alert('Documentation Giat');" style="cursor: pointer;">
+                        <img src="{{ asset('assets/img/ikonn3.jpg') }}" class="rounded-circle shadow icon-img"
+                            style="width: 70px; height: 70px; object-fit: cover;">
+                        <div class="fw-bold small">Doc Project</div>
+                    </div>
+                    <div class="icon-item text-end text-white" onclick="alert('Document MTT');" style="cursor: pointer;">
+                        <img src="{{ asset('assets/img/ikonn3.jpg') }}" class="rounded-circle shadow icon-img"
+                            style="width: 70px; height: 70px; object-fit: cover;">
+                        <div class="fw-bold small">Document MTT</div>
+                    </div>
+                </div>
+
             </div>
-            <!-- ================= END PIE CHART SECTION ================= -->
 
             <x-app.footer />
         </div>
     </main>
 
-    <!-- ================= SCRIPTS ================= -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const ctx = document.getElementById('inventoryChart').getContext('2d');
-            const chartData = {
-                labels: ['Inventory Project', 'Inventaris', 'Asset Jual'],
-                datasets: [{
-                    data: [{{ $countProjek }}, {{ $countInventaris }}, {{ $countAssetjual }}],
-                    backgroundColor: ['#007bff', '#28a745', '#ffc107'],
-                    hoverOffset: 20
-                }]
-            };
+            const dataValues = [{{ $countProjek }}, {{ $countInventaris }}, {{ $countAssetjual }}];
+            const colors = ['#0000FF', '#800000', '#800080'];
 
-            const inventoryChart = new Chart(ctx, {
-                type: 'pie',
-                data: chartData,
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: dataValues,
+                        backgroundColor: colors,
+                        borderWidth: 2,
+                        hoverOffset: 10
+                    }]
+                },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
                     plugins: {
-                        legend: {
-                            position: 'bottom'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.formattedValue || 0;
-                                    return `${label}: ${value} item`;
-                                }
-                            }
-                        }
+                        legend: { display: false },
+                        tooltip: { enabled: false }
                     }
-                }
-            });
-
-            // Klik chart untuk buka modal
-            document.getElementById('inventoryChart').addEventListener('click', function() {
-                const modal = new bootstrap.Modal(document.getElementById('detailModal'));
-                modal.show();
+                },
+                plugins: [{
+                    // 🔹 Custom plugin untuk tampilkan angka di dalam slice
+                    id: 'valueLabels',
+                    afterDraw(chart) {
+                        const {ctx, data} = chart;
+                        const meta = chart.getDatasetMeta(0);
+                        ctx.save();
+                        ctx.font = 'bold 40px Poppins';
+                        ctx.fillStyle = '#fff';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        meta.data.forEach((element, index) => {
+                            const pos = element.tooltipPosition();
+                            const value = data.datasets[0].data[index];
+                            ctx.fillText(value, pos.x, pos.y);
+                        });
+                        ctx.restore();
+                    }
+                }]
             });
         });
     </script>
+
     <style>
-        /* 🌊 Efek floating logo */
-@keyframes float {
-    0% {
-        transform: translateY(0);
+    .chart-container { position: relative; }
+
+    .logo-center-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 250px;
+        height: 250px;
+        pointer-events: none;
+        z-index: 5;
     }
-    50% {
-        transform: translateY(-12px);
+
+    @keyframes floatY {
+        0%   { transform: translateY(0); }
+        25%  { transform: translateY(-6px); }
+        50%  { transform: translateY(-14px); }
+        75%  { transform: translateY(-6px); }
+        100% { transform: translateY(0); }
     }
-    100% {
-        transform: translateY(0);
+
+    .floating-logo {
+        width: 100%;
+        height: auto;
+        display: block;
+        animation: floatY 3.2s ease-in-out infinite;
+        will-change: transform;
+        filter:
+            drop-shadow(0 0 10px rgba(255,255,255,1))
+            drop-shadow(0 0 25px rgba(255,255,255,0.9))
+            drop-shadow(0 0 40px rgba(255,255,255,0.7));
+        backface-visibility: hidden;
     }
-}
 
-.floating-logo {
-    animation: float 3s ease-in-out infinite;
-}
-.icon-item .icon-img {
-    transition: all 0.3s ease;
-    border: 3px solid transparent;
-}
+    @keyframes glowText {
+        0% { text-shadow: 0 0 10px rgba(255,255,255,0.6); opacity: 0.7; }
+        50% { text-shadow: 0 0 20px rgba(255,255,255,0.9); opacity: 1; }
+        100% { text-shadow: 0 0 10px rgba(255,255,255,0.6); opacity: 0.7; }
+    }
+    .animated-title {
+        font-size: 2rem;
+        letter-spacing: 2px;
+        animation: glowText 2s infinite ease-in-out;
+    }
 
-.icon-item:hover .icon-img {
-    transform: scale(1.1);
-    border-color: #ffc107; /* warna kuning glowing */
-    box-shadow: 0 0 15px rgba(255, 193, 7, 0.8);
-}
+    .icon-item .icon-img {
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    .icon-item:hover .icon-img {
+        transform: scale(1.1);
+        border-color: #ffc107;
+        box-shadow: 0 0 15px rgba(255, 193, 7, 0.8);
+    }
+    .icon-item:active .icon-img { transform: scale(0.95); }
 
-.icon-item:active .icon-img {
-    transform: scale(0.95);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-}
+    @media (max-width: 768px) {
+        .chart-container { width: 320px !important; height: 320px !important; }
+        .logo-center-wrapper { width: 140px; height: 140px; }
+    }
+    </style>
 
-        </style>
 </x-app-layout>

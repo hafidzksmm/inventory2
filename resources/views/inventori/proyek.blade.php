@@ -13,6 +13,11 @@
                             <p class="mb-4 font-weight-semibold">
                                 PT. Media Touch Technology
                             </p>
+                            <a href="{{ route('dashboard') }}" 
+                            class="btn text-white fw-semibold shadow-sm px-4 py-2"
+                            style="background: linear-gradient(90deg, #ff512f, #f09819); border: none;">
+                            <i class="fas fa-arrow-left me-2"></i> Back
+                            </a>
                             <img src="../assets/img/ikon2.png" alt="3d-cube"
                                 class="position-absolute top-0 end-1 w-25 max-width-200 mt-n6 d-sm-block d-none" />
                         </div>

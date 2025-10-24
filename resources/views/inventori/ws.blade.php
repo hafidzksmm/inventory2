@@ -13,6 +13,12 @@
                             <p class="mb-4 font-weight-semibold">
                                 PT. Media Touch Technology
                             </p>
+                            <a href="{{ route('dashboard') }}" 
+                            class="btn text-white fw-semibold shadow-sm px-4 py-2"
+                            style="background: linear-gradient(90deg, #ff512f, #f09819); border: none;">
+                            <i class="fas fa-arrow-left me-2"></i> Back
+                            </a>
+
                             <img src="../assets/img/ikon1.png" alt="ikon1"
                                 class="position-absolute top-0 end-1 w-25 max-width-200 mt-n6 d-sm-block d-none" />
                         </div>
@@ -32,6 +38,7 @@
                                             placeholder="Cari data Inventory Workshop..." 
                                             style="max-width: 300px;">
                                     </div>
+
                                 </div>
                                 <!-- Tombol Tambah Data & Import Excel rata kanan -->
                                  

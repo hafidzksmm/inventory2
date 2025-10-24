@@ -17,39 +17,47 @@
 
             <hr class="my-0">
 
-            <!-- Swiper Section -->
-            <div class="row">
-                <div class="position-relative overflow-hidden">
-                    <div class="swiper mySwiper mt-4 mb-2">
-                        <div class="swiper-wrapper">
+            <!-- 🎬 Header Video Section -->
+            <div class="position-relative overflow-hidden" style="height: 80vh;">
 
-                            @for ($i = 1; $i <= 3; $i++)
-                                <div class="swiper-slide">
-                                    <div
-                                        class="card card-background shadow-none border-radius-xl card-background-after-none align-items-start mb-0">
-                                        <div class="full-background bg-cover"
-                                            style="background-image: url('../assets/img/ikon-{{ $i }}.jpg')"></div>
-                                        <div class="card-body text-start px-3 py-0 w-100">
-                                            <div class="row mt-12">
-                                                <div class="col-sm-3 mt-auto">
-                                                    <h4 class="text-dark font-weight-bolder">#{{ $i }}</h4>
-                                                    <p class="text-dark opacity-6 text-xs font-weight-bolder mb-0">Name
-                                                    </p>
-                                                    <h5 class="text-dark font-weight-bolder">
-                                                        {{ ['Inventory Workshop', 'Inventory Project', 'Asset Jual'][$i - 1] }}
-                                                    </h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endfor
+                <!-- 🔹 Background Video -->
+                <video autoplay muted loop playsinline class="w-100 h-100 object-cover position-absolute top-0 start-0"
+                    style="object-fit: cover; z-index: 1;">
+                    <source src="{{ asset('assets/img/vidio.mp4') }}" type="video/mp4">
+                    Browser kamu tidak mendukung video.
+                </video>
 
-                        </div>
-                    </div>
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
+                <!-- 🔹 Logo di tengah -->
+                <div class="position-absolute top-50 start-50 translate-middle d-flex justify-content-center align-items-center"
+                    style="z-index: 3;">
+                    <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" class="floating-logo"
+                        style="margin-top:50px; width: 230px; filter: drop-shadow(0 0 25px rgba(255,255,255,0.8));">
                 </div>
+
+            <!-- 🔹 Ikon di kiri bawah sejajar horizontal -->
+            <div class="position-absolute bottom-0 start-0 mb-4 ms-4 d-flex flex-row gap-3" style="z-index: 3;">
+                @php
+                    $icons = [
+                        ['src' => 'assets/img/ikon-1.jpg', 'label' => 'Inventory Workshop', 'route' => 'view-ws'],
+                        ['src' => 'assets/img/ikon-2.jpg', 'label' => 'Inventory Project', 'route' => 'view-projek'],
+                        ['src' => 'assets/img/ikon-3.jpg', 'label' => 'Asset Jual', 'route' => 'view-aset'],
+                    ];
+                @endphp
+
+                @foreach ($icons as $index => $icon)
+                    <div class="icon-item d-flex flex-column align-items-center text-white"
+                        style="cursor: pointer;"
+                        onclick="window.location.href='{{ route($icon['route']) }}'">
+                        <img src="{{ asset($icon['src']) }}" alt="ikon{{ $index + 1 }}"
+                            class="rounded-circle shadow icon-img"
+                            style="width: 90px; height: 90px; object-fit: cover;">
+                        <span class="mt-1 fw-bold text-center" style="font-size: 0.8rem;">
+                            {{ $icon['label'] }}
+                        </span>
+                    </div>
+                @endforeach
+            </div>
+
             </div>
 
             <!-- ================= PIE CHART SECTION ================= -->
@@ -140,5 +148,38 @@
             });
         });
     </script>
+    <style>
+        /* 🌊 Efek floating logo */
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
 
+.floating-logo {
+    animation: float 3s ease-in-out infinite;
+}
+.icon-item .icon-img {
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+}
+
+.icon-item:hover .icon-img {
+    transform: scale(1.1);
+    border-color: #ffc107; /* warna kuning glowing */
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.8);
+}
+
+.icon-item:active .icon-img {
+    transform: scale(0.95);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+}
+
+        </style>
 </x-app-layout>

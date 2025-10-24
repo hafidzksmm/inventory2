@@ -203,8 +203,8 @@
                 <input type="text" class="form-control border-secondary" id="ukuran" name="ukuran" required>
             </div>
             <div class="col-md-4">
-                <label for="qty" class="form-label fw-semibold">Jumlah </label>
-                <input type="number" class="form-control border-secondary" id="qty" name="qty" min="1" required>
+                <label for="jumlah" class="form-label fw-semibold">Jumlah </label>
+                <input type="number" class="form-control border-secondary" id="jumlah" name="jumlah" min="1" required>
             </div>
             <div class="col-md-4">
                 <label for="lokasi" class="form-label fw-semibold">Lokasi</label>

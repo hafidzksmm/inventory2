@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Asetjual;
+use App\Models\asetjual;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Collection;
 use App\Imports\AsetJualImport;

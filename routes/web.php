@@ -81,23 +81,6 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [App\Http\Controllers\dashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/tables', function () {
-    return view('tables');
-})->name('tables');
-
-Route::get('/wallet', function () {
-    return view('wallet');
-})->name('wallet');
-
-Route::get('/RTL', function () {
-    return view('RTL');
-})->name('RTL');
-
-Route::get('/profile', function () {
-    return view('account-pages.profile');
-})->name('profile');
-
-
 route::get('/inventori',[inventoriController::class,'ws'])->name('view-ws');
 route::post('/inventori/add',[inventoriController::class,'store'])->name('ws-store');
 route::put('/inventori/{id}',[inventoriController::class,'update'])->name('ws.update');

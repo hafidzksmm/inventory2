@@ -1,4 +1,3 @@
-<!--by nuzul email: nuzulr.ramadhan@gamil.com-->
 <!DOCTYPE html>
 <html lang="en">
 

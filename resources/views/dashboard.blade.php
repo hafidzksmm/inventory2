@@ -4,7 +4,7 @@
 
         <!-- 🎥 FULL RESPONSIVE BACKGROUND VIDEO -->
         <video autoplay muted loop playsinline class="video-bg" aria-hidden="true">
-            <source src="{{ asset('assets/img/vidioo.mp4') }}" type="video/mp4">
+            <source src="{{ asset('assets/img/video.mp4') }}" type="video/mp4">
             Browser kamu tidak mendukung video.
         </video>
 
@@ -12,11 +12,11 @@
         <div class="dashboard-wrapper">
 
             <!-- 🏷️ TITLE -->
-            <h2 class="animated-title fw-bold text-white">
-                Dashboard
-            </h2>
-
+            <h3 class="text-white fw-bold mb-3 glow-dashboard" style="text-align: center; letter-spacing: 2px;">
+                DASHBOARD
+            </h3>
             <!-- 📈 CHART -->
+             <div class="col-xl-12">
             <div class="center-chart" role="region" aria-label="Chart statistik">
                 <div class="chart-container position-relative">
                     <canvas id="inventoryChart"></canvas>
@@ -27,23 +27,37 @@
                     </div>
                 </div>
             </div>
+            </div>
 
             <!-- 🧭 ICON KIRI BAWAH -->
-            <div class="icon-left">
-                
-                <div class="icon-item" onclick="window.location.href='{{ route('view-ws') }}'">
-                    <img src="{{ asset('assets/img/ikon-1.jpg') }}" class="rounded-circle icon-img shadow">
-                    <div class="label-text">Inventory Workshop</div>
+             <div class="col-xl-4">
+            <div class="icon-left" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+
+                <!-- ✅ Judul di atas icon -->
+                <h3 class="text-white fw-bold shine-text" style="margin-bottom: 10px; text-align:center;">
+                    INVENTORY
+                </h3>
+
+                <div style="display: flex; gap: 20px;">
+                    <div class="icon-item" onclick="window.location.href='{{ route('view-ws') }}'">
+                        <img src="{{ asset('assets/img/ikon-1.jpg') }}" class="rounded-circle icon-img shadow">
+                        <div class="label-text">Workshop</div>
+                    </div>
+
+                    <div class="icon-item" onclick="window.location.href='{{ route('view-projek') }}'">
+                        <img src="{{ asset('assets/img/projeks.png') }}" class="rounded-circle icon-img shadow">
+                        <div class="label-text">Project</div>
+                    </div>
+
+                    <div class="icon-item" onclick="window.location.href='{{ route('view-aset') }}'">
+                        <img src="{{ asset('assets/img/23.png') }}" class="rounded-circle icon-img shadow">
+                        <div class="label-text">Selling Assets</div>
+                    </div>
                 </div>
-                <div class="icon-item" onclick="window.location.href='{{ route('view-projek') }}'">
-                    <img src="{{ asset('assets/img/ikon-2.jpg') }}" class="rounded-circle icon-img shadow">
-                    <div class="label-text">Inventory Project</div>
-                </div>
-                <div class="icon-item" onclick="window.location.href='{{ route('view-aset') }}'">
-                    <img src="{{ asset('assets/img/ikon-3.jpg') }}" class="rounded-circle icon-img shadow">
-                    <div class="label-text">Asset Jual</div>
-                </div>
+
             </div>
+            </div>
+                
                 <div class="position-absolute top-0 end-0 mt-3 mt-md-4 me-3 me-md-4 d-flex flex-column align-items-end gap-2 gap-md-3" style="z-index: 3;">
                 <!-- Button Logout --> 
 <form method="POST" action="{{ route('logout') }}">
@@ -67,23 +81,24 @@
             <div class="icon-right">
                 
                 <div class="icon-item" onclick="alert('Documentation Giat');">
-                    <img src="{{ asset('assets/img/ikonn3.jpg') }}" class="rounded-circle icon-img shadow">
-                    <div class="small fw-bold">Documentation Project</div>
+                    <img src="{{ asset('assets/img/projekstasi.png') }}" class="rounded-circle icon-img shadow">
+                    <div class="small fw-bold">Project</div>
+                    <div class="small fw-bold">Documentation</div>
                 </div>
 
                 <div class="icon-item" onclick="alert('Document MTT');">
-                    <img src="{{ asset('assets/img/premium.png') }}" class="rounded-circle icon-img shadow">
-                    <div class="small fw-bold">Document Project</div>
+                    <img src="{{ asset('assets/img/ikons.png') }}" class="rounded-circle icon-img shadow">
+                    <div class="small fw-bold">Project Files</div>
                 </div>
 
                 <div class="icon-item" onclick="window.open('https://mttech.co.id', '_blank')">
-                    <img src="{{ asset('assets/img/ikonn1.jpg') }}" class="rounded-circle icon-img shadow">
+                    <img src="{{ asset('assets/img/ikon-4.png') }}" class="rounded-circle icon-img shadow">
                     <div class="small fw-bold">Company Profile</div>
                 </div>
 
                 <div class="icon-item" onclick="alert('Documentation Project');">
-                    <img src="{{ asset('assets/img/ikonn2.jpg') }}" class="rounded-circle icon-img shadow">
-                    <div class="small fw-bold">Documentation Giat</div>
+                    <img src="{{ asset('assets/img/giat.png') }}" class="rounded-circle icon-img shadow">
+                    <div class="small fw-bold">Project Activity</div>
                 </div>
             </div>
 
@@ -100,7 +115,7 @@
 
         const labels = ['Inventory Project', 'Inventory Workshop', 'Asset Jual'];
         const dataValues = [{{ $countProjek }}, {{ $countInventaris }}, {{ $countAssetjual }}];
-        const colors = ['#0000FF', '#800000', '#800080'];
+        const colors = ['#27243b', '#5f5887', '#a29dde'];
 
         const chart = new Chart(ctx, {
             type: 'doughnut',
@@ -108,12 +123,11 @@
                 labels: labels,
                 datasets: [{
                     data: dataValues,
-                    backgroundColor: ['#05cdff', '#fe0404', '#ff00ff'],
-                            borderColor: '#191919',
-                            borderWidth: 6,
-                            borderRadius: 18,
-                            hoverOffset: 12,
-
+                    backgroundColor: ['#FFD700', '#00BFFF', '#CCCCCC'],
+                    borderColor: '#191919',
+                    borderWidth: 6,
+                    borderRadius: 18,
+                    hoverOffset: 12,
                 }]
             },
             options: {
@@ -127,7 +141,6 @@
                         callbacks: {
                             label: function(context) {
                                 const label = context.chart.data.labels[context.dataIndex];
-                                const value = context.formattedValue;
                                 return `${label}`;
                             }
                         },
@@ -138,16 +151,30 @@
                         bodyFont: { size: 14 }
                     }
                 },
+
+                // ✅ CLICK EVENT ROUTING
+                onClick: (event, elements) => {
+                    if (!elements.length) return;
+                    const index = elements[0].index;
+
+                    if (index === 0) {
+                        window.location.href = "{{ route('view-projek') }}";
+                    } else if (index === 1) {
+                        window.location.href = "{{ route('view-ws') }}";
+                    } else if (index === 2) {
+                        window.location.href = "{{ route('view-aset') }}";
+                    }
+                },
+
                 onHover: (event, elements) => {
                     const canvas = event.native ? event.native.target : event.target;
                     canvas.style.cursor = elements.length ? 'pointer' : 'default';
                 }
             },
             plugins: [{
-                // 🔹 Plugin custom untuk angka di tengah setiap slice
                 id: 'valueLabels',
                 afterDraw(chart) {
-                    const {ctx, data} = chart;
+                    const { ctx, data } = chart;
                     const meta = chart.getDatasetMeta(0);
                     ctx.save();
                     ctx.font = 'bold 30px Poppins';
@@ -164,17 +191,16 @@
             }]
         });
 
-        // 🔹 Tambahkan logo di tengah tengah donat
         const image = new Image();
-        image.src = '/images/logo.png'; // ganti dengan path logo kamu
+        image.src = '/images/logo.png';
         image.onload = function() {
             const plugin = {
                 id: 'centerImage',
                 beforeDraw(chart) {
-                    const {ctx, chartArea: {width, height}} = chart;
+                    const { ctx, chartArea: { width, height } } = chart;
                     const x = chart.chartArea.left + width / 2;
                     const y = chart.chartArea.top + height / 2;
-                    const imgSize = 70; // ukuran logo, bisa kamu kecilkan lagi
+                    const imgSize = 70;
                     ctx.drawImage(image, x - imgSize / 2, y - imgSize / 2, imgSize, imgSize);
                 }
             };
@@ -240,10 +266,10 @@
         /* ✅ Logo ikut turun 20% + white glow */
         .logo-center-wrapper {
             position: absolute;
-            top: 67%;
+            top: 63%;
             left: 50%;
-            width: 165px;
-            height: 165px;
+            width: 190px;
+            height: 190px;
             transform: translate(-50%, -50%);
             z-index: 6;
         }
@@ -514,6 +540,56 @@
   font-size: 1rem;
   color: transparent;
 }
+.shine-text {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.shine-text::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  border-radius:20%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  transform: skewX(-25deg);
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 120%;
+  }
+}
+.glow-dashboard {
+  animation: glowPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                 0 0 20px rgba(209, 0, 0, 0.6),
+                 0 0 30px rgba(167, 0, 0, 0.4);
+  }
+  100% {
+    text-shadow: 0 0 2px rgba(255, 255, 255, 1);
+  }
+}
+
 
     </style>
 </x-app-layout>

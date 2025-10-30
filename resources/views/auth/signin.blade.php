@@ -27,7 +27,8 @@
                                 </div>
                                
 
-                                <div class="card-body " style="border-radius: 15px; backdrop-filter: blur(0px); border-line:1px " >
+                                <div class="card-body " style="border-radius: 15px; backdrop-filter: blur(2px); border-line:1px;background: rgba(255, 255, 255, 0.46);
+            border: 1px solid rgba(255,255,255,0.2); " >
                                         <div class="text-center py-4">
                                             <img src="{{ asset('assets/img/logo.png') }}" 
                                                 alt="Logo"

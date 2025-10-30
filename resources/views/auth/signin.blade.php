@@ -8,7 +8,7 @@
     </div>
     <main class="main-content  mt-0">
         <section>
-            <div class="page-header min-vh-100" style="background-image: url('../assets/img/bgcui.jpg'); background-size: cover; background-position: top;">
+            <div class="page-header min-vh-100" style="background-image: url('../assets/img/bg-cui6.jpg'); background-size: cover; background-position: top;">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-4 col-md-12 d-flex flex-column mx-auto">
@@ -27,8 +27,13 @@
                                 </div>
                                
 
-                                <div class="card-body " style="border-radius: 15px; backdrop-filter: blur(15px); border-line:1px" >
-                                    <h3 class="font-weight-black text-white display-6 text-center MB-3 py-4">LOGIN</h3>
+                                <div class="card-body " style="border-radius: 15px; backdrop-filter: blur(0px); border-line:1px " >
+                                        <div class="text-center py-4">
+                                            <img src="{{ asset('assets/img/logo.png') }}" 
+                                                alt="Logo"
+                                                class="img-fluid"
+                                                style="max-width: 180px;">
+                                        </div>
                                     <form role="form" class="text-start" method="POST" action="sign-in">
                                         @csrf
                                         <label class="text-white">Username</label>

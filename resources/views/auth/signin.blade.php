@@ -34,8 +34,7 @@
                                         <label class="text-white">Username</label>
                                         <div class="mb-3">
                                             <input type="text" id="username" name="username" class="form-control"
-                                                placeholder="Enter your email address"
-                                                value="{{ old('username') ? old('username') : 'admin' }}"
+                                                placeholder="Enter username"
                                                 aria-label="username" aria-describedby="">
                                         </div>
                                         <label class="text-white">Password</label>
